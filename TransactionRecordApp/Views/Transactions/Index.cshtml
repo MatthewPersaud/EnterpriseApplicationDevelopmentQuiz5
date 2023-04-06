@@ -1,0 +1,43 @@
+﻿@model List<Transaction>
+
+@{
+    ViewData["Title"] = "All Transactions";
+}
+
+<a asp-controller="Transaction" asp-action="Add">Add new transaction</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Ticker Symbol</th>
+            <th>Transaction Type</th>
+            <th>Company Name</th>
+            <th>Quantity</th>
+            <th>Share Price</th>
+            <th>Commission Fee</th>
+            <th>Gross Value</th>
+            <th>Net Value</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.TickerSymbol</td>
+                <td>@transaction.TransactionType.Name</td>
+                <td>@transaction.CompanyName</td>
+                <td>@transaction.Quantity</td>
+                <td>@transaction.SharePrice.ToString("c")</td>
+                <td>@transaction.TransactionType.CommissionFee.ToString("c")</td>
+                <td>@transaction.GetGrossValue().ToString("c")</td>
+                <td>@transaction.GetNetValue().ToString("c")</td>
+                <td>
+                    <a asp-controller="Transaction" asp-action="Edit" asp-route-id="@transaction.TransactionId">Edit</a>
+                    <span class="linkSpacer">|</span>
+                    <a asp-controller="Transaction" asp-action="Delete" asp-route-id="@transaction.TransactionId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
